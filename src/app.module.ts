@@ -11,12 +11,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       host: 'localhost',
       port: 3306,
       username: 'root',
-      password: '*************', // reemplazalo por tu contraseña real
+      password: 'Argentina1', // reemplazalo por tu contraseña real
       database: 'escolar',
       entities: ['dist/**/*.entity{.ts,.js}'],
       synchronize: false,
     }),
-    // Otros módulos (ej: CiudadModule) van acá
+    CiudadModule,// Otros módulos (ej: CiudadModule) van acá
   ],
 })
 export class AppModule {}

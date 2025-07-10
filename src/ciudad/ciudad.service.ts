@@ -1,11 +1,30 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateCiudadDto } from './dto/create-ciudad.dto';
 import { UpdateCiudadDto } from './dto/update-ciudad.dto';
-import { Repository, FindOneOptions } from 'typeorm';
-import { Ciudad } from './entities/ciudad.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { FindOneOptions, Repository } from 'typeorm';
+import {Ciudad} from './entities/ciudad.entity';
 
 @Injectable()
 export class CiudadService {
+  constructor (@InjectRepository(Ciudad)
+    private readonly ciudadRepository : Repository<Ciudad>) {}
+
+  public async getAll(): Promise <Ciudad[]>{
+    let ciudades: Ciudad[] = await this.ciudadRepository.find();
+    return ciudades;
+  }
+
+  public async getById(id : number) : Promise<Ciudad> {
+    const criterio : FindOneOptions = { where: { idCiudad: id } }
+    let ciudad = await this.ciudadRepository.findOne( criterio );
+    if (!ciudad){
+         throw new NotFoundException('No se encontro la ciudad con id ${id}');
+       }
+       return ciudad;
+    }
+
+
   create(createCiudadDto: CreateCiudadDto) {
     return 'This action adds a new ciudad';
   }
@@ -27,24 +46,3 @@ export class CiudadService {
   }
 }
 
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
-
-@Entity('ciudad')
-export class Ciudad {
-
-    @PrimaryGeneratedColumn()
-    private idCiudad: number;
-
-    @Column()
-    private nombre: string;
-
-    constructor(id: number, nombre: string) {
-        this.idCiudad = id;
-        this.nombre = nombre;
-    }
-public getIdCiudad(): number { return this.idCiudad; }
-    public setIdCiudad(idCiudad: number): void { this.idCiudad = idCiudad; }
-    public getNombre(): string { return this.nombre; }
-    public setNombre(nombre: string): void { this.nombre = nombre; }
-
-}

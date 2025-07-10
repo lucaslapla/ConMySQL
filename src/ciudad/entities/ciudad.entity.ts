@@ -1,11 +1,11 @@
-export class Ciudad {}
-
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
-@Entity('ciudad')
+@Entity('ciudad') //nombre de la tabla 
+
 export class Ciudad {
+  
   @PrimaryGeneratedColumn()
-  idCiudad: number;
+   idCiudad: number;
 
   @Column()
   private nombre: string;

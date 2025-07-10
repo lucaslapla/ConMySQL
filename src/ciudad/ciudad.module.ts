@@ -9,4 +9,5 @@ import { Ciudad } from './entities/ciudad.entity';
   controllers: [CiudadController],
   providers: [CiudadService],
 })
+
 export class CiudadModule {}
